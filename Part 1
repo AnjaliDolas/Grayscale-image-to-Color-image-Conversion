@@ -39,8 +39,8 @@ end
 end
 end
 end
-%after this loop, all intensity values converted into respective colors
 
+%after this loop, all intensity values converted into respective colors
 img=cat(3,R,G,B); %concatinating all RGB planes to get color image
 imshow(img) %display output
 title('Pseudo Color Image')
