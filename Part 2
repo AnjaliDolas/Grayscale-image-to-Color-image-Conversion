@@ -1,0 +1,31 @@
+%Matlab code for Intensity Slicing (256 Colors) Intslice2.m
+
+[filename,pathname]=uigetfile('C:\Users\anjal\Downloads\download.jpeg','Select grayscale Image');
+filewithpath=strcat(pathname,filename);
+img=imread(filewithpath); %input image file goes to img variable
+
+[r,c,~]=size(img); %getting size of the image in rows and columns
+R=uint8(zeros(r,c)); %initalize R matrix
+G=uint8(zeros(r,c)); %initalize G matrix
+B=uint8(zeros(r,c)); %initalize B matrix
+coltype = input('Enter choice of colormap, e.g jet or hsv etc: ');
+%taking colormap name from the user, if "jet"- colormap will be jet
+
+colmap = uint8(255*coltype);
+%converting colormap into exact 256 size for 256 colors for 256 grey shades
+
+if(length(colmap)~=256)
+colmap= imresize(colmap,[256,3]);
+end
+
+%extracting all the grey values of the image and assigning corresponding RGB colors
+for i=1:r
+for j=1:c
+R(i,j) = colmap(img(i,j)+1,1);
+G(i,j) = colmap(img(i,j)+1,2);
+B(i,j) = colmap(img(i,j)+1,3);
+end
+end
+imgc = cat(3,R,G,B);
+imshow(imgc)
+title('Pseudo Color Image')
