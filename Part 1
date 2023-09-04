@@ -1,0 +1,46 @@
+%Matlab code for Intensity Slicing (Few Colors) Intslice1.m
+
+[filename,pathname]=uigetfile('C:\Users\anjal\Downloads\download.jpeg','Select grayscale Image');
+filewithpath=strcat(pathname,filename);
+img=imread(filewithpath); %input image file goes to img variable
+
+[r,c,~]=size(img); %getting size of the image in rows and columns
+R=uint8(zeros(r,c)); %initalize R matrix
+G=uint8(zeros(r,c)); %initalize G matrix
+B=uint8(zeros(r,c)); %initalize B matrix
+nos=input('Enter number of Slices: '); % input from user "no. of slices"
+
+color=zeros(nos,3); %color information given by user will be stored in "color" variable
+interval=zeros(nos,2); %intensity interval i.e. range of slices, given by user form L1 to L2- L2 to L3 will go in Intensity variable
+
+for i=1:nos % from 1 to No. of slices
+interval (i,:)=input('Enter Intensity Interval: ');
+color(i,:)=uint8(255*uisetcolor('Select Color for Pseudo coloring:')); %color picker will be shown with the help of "uisetcolor" and we can choose any color of our choice
+end
+%When user completes with all the inputs ...
+for s=1:nos
+slice=interval(s,:); %extracting corresponding slice form the interval
+LL=slice(1); %getting lower limit intensity &
+UL=slice(2); %upper limit of intensity
+rgb=color(s,:); %extracting RGB triplet from color variable (RGB value selected by user from uisetcolor
+red=rgb(1); %Accepting RED component
+green=rgb(2); %Accepting GREEN component
+blue=rgb(3); %Accepting BLUE component
+
+%in this loop all the grey values are getting converted into its respective color values
+for i=1:r %using this 2 for loops we are picking all the 
+for j=1:c %grey values of the image
+
+if img(i,j)>=LL && img(i,j)<=UL %comparing with selected LL and UL, if selected intensity falling under L1 and L2 then assign the respective RGB value given by user
+R(i,j)=red;
+G(i,j)=green;
+B(i,j)=blue;
+end
+end
+end
+end
+%after this loop, all intensity values converted into respective colors
+
+img=cat(3,R,G,B); %concatinating all RGB planes to get color image
+imshow(img) %display output
+title('Pseudo Color Image')
